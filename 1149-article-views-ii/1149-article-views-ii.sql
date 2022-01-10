@@ -15,6 +15,8 @@ from
     
 select 
     distinct viewer_id id
+    # select distinct as there could be multiple rows with rank=2 
+    # because of dense_rank's feature
 from 
     cte
 where 
