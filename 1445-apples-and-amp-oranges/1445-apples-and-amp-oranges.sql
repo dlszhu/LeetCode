@@ -1,11 +1,16 @@
 # Write your MySQL query statement below
 
-select
-    distinct s1.sale_date,
-    (s1.sold_num-s2.sold_num) as diff
-from
-    Sales s1
-    left join Sales s2 on s1.sale_date=s2.sale_date
-where 
-    s1.fruit <> s2.fruit
-    and s1.fruit = 'apples'
+#more elegant solution
+#apply the sum function and calculate the difference within the Groupby
+#as the function will run within the group hence run thru the two rows of apple and oranges
+
+SELECT 
+    sale_date,
+    SUM(CASE WHEN fruit = "apples" THEN sold_num END) - 
+    SUM(CASE WHEN fruit = "oranges" THEN sold_num END) as diff
+FROM 
+    Sales 
+GROUP BY 
+    sale_date 
+ORDER BY 
+    sale_date
