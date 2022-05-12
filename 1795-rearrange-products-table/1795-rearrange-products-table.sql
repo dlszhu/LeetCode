@@ -1,16 +1,13 @@
 # Write your MySQL query statement below
 
-SELECT product_id, 'store1' AS store, store1 AS price 
-FROM Products 
-WHERE store1 IS NOT NULL
-UNION 
-SELECT product_id, 'store2' AS store, store2 AS price 
-FROM Products 
-WHERE store2 IS NOT NULL
-UNION 
-SELECT product_id, 'store3' AS store, store3 AS price 
-FROM Products 
-WHERE store3 IS NOT NULL
+SELECT A.product_id, B.COLUMN_NAME as store,
+CASE
+    WHEN B.COLUMN_NAME = "store1" THEN store1
+    WHEN B.COLUMN_NAME = "store2" THEN store2
+    WHEN B.COLUMN_NAME = "store3" THEN store3
+END AS price
+FROM Products A, INFORMATION_SCHEMA.COLUMNS B
+  WHERE table_name = 'Products' AND column_name != "product_id"
+  HAVING price IS NOT NULL
 
-ORDER BY 1,2 ASC
-
+# INFORMATION_SCHEMA provides the table metadata like column name 
